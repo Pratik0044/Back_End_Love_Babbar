@@ -16,11 +16,10 @@ const todoRoutes = require("./routes/todos")
 
 // mount the todo API routes
                                                                              
-app.use("api/v1", todoRoutes)
+app.use("/api/v1", todoRoutes)
 
 app.listen(PORT,()=>{
     console.log(`Server started successfully at ${PORT}`);
-    
 })
 
 // connect to the DATABASE
