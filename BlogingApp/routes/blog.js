@@ -1,11 +1,8 @@
-const express = require('express')
+const express = require("express");
 const router = express.Router();
 
-// import Controller
+const {dummyLink} = require("../controllers/dummy_controller")
 
+router.get("/dummy",dummyLink);
 
-//Mapping create
-
-
-
-// export
+module.exports = router

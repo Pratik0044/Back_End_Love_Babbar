@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express();
 
-const blog= require('./routes/blog')
+const router= require('./routes/blog')
 
 app.use(express.json())
 
@@ -11,7 +11,8 @@ const PORT = process.env.PORT||3000;
 const dbConnect = require("./config/database")
 dbConnect();
 
-app.use('api/v1',blog)
+
+app.use('/api/v1/',router)
 
 app.listen(PORT,()=>{
     console.log("Server start successfully ");
