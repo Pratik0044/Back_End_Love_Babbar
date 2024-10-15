@@ -26,3 +26,26 @@ exports.createLike = async(req,res) => {
         console.log("error");
     }
 }
+
+exports.disLike = async(req,res)=>{
+    try{
+        const {post,like} = req.body
+        const deletedLike = await Like.findOneAndDelete({post:post,_id:like});
+
+        //update the post collection
+
+        const updatedPost = await Post.findByIdAndUpdate(post,{$pull:{likes:deletedLike._id}},{new:true});
+
+        res.status(200).json({
+            status: true,
+            Post:updatedPost,
+            message: "Successefully Deleted the Liked Id"
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            status: false,
+            message: "unsuccessfull"
+        })
+    }
+}
