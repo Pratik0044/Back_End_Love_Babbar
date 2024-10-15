@@ -12,7 +12,7 @@ const dbConnect = require("./config/database")
 dbConnect();
 
 
-app.use('/api/v1/',router)
+app.use('/api/v1',router)
 
 app.listen(PORT,()=>{
     console.log("Server start successfully ");
