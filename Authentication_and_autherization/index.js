@@ -10,3 +10,6 @@ app.use(express.json());
 app.get('/',(req,response)=>{
    response.send("Hello jee")
 })
+
+const dbconnect = require("./config/database");
+dbconnect;
