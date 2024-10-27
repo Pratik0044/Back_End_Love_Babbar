@@ -10,6 +10,7 @@ app.use(express.json());
 app.get('/',(req,response)=>{
    response.send("Hello jee")
 })
+require("./config/database").connect();
 
-const dbconnect = require("./config/database");
-dbconnect;
+const user = require('./routes/user');
+app.use("/api/v1",user);
