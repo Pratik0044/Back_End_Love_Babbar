@@ -52,14 +52,14 @@ exports.login = async(req,res)=>{
         const {email,password} = req.body;
         
         // validation of email and password
-        if(!(email || password)){
+        if(!email || !password){
             return res.status(400).json({
                 success:fasle,
                 message:"Please enter correct data.",
             })
         }
         // Fetch data from Database
-        const userPresent = await User.findOne({email});
+        let userPresent = await User.findOne({email});
 
         // User not register
         if(!userPresent){
@@ -84,10 +84,23 @@ exports.login = async(req,res)=>{
                 expiresIn:"2h",
             })
 
+            userPresent = userPresent.toObject();
             userPresent.token = token;
+           
             userPresent.password = undefined;
+   
+            
 
-            res.cookie()
+            const options ={
+                expires : new Date( Date.now() +3 * 24 * 60 * 60 * 1000),
+                httpOnly: true,
+            }
+            res.cookie("token",token,options).status(200).json({
+                success:true,
+                token,
+                userPresent,
+                message:"User Logged In successfully:"
+            })
 
         }
         // Password didn't match
@@ -97,10 +110,6 @@ exports.login = async(req,res)=>{
                 message:"Password Incorrect."
             })
         }
-        return res.status(500).json({
-            success:false,
-            message:"Email and Password are incorrect, Please try again later",
-        })
     }
     catch(er){
         console.log(er);
