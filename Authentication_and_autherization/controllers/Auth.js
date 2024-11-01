@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user")
+const jwt = require("jsonwebtoken");
+require('dotenv').config()
 
 exports.signup = async(req,res)=>{
     try{
@@ -42,5 +44,70 @@ exports.signup = async(req,res)=>{
             success:false,
             message:"User can not be register, Please try again later",
         })
+    }
+}
+
+exports.login = async(req,res)=>{
+    try{
+        const {email,password} = req.body;
+        
+        // validation of email and password
+        if(!(email || password)){
+            return res.status(400).json({
+                success:fasle,
+                message:"Please enter correct data.",
+            })
+        }
+        // Fetch data from Database
+        const userPresent = await User.findOne({email});
+
+        // User not register
+        if(!userPresent){
+            return res.status(401).json({
+                success:false,
+                message:"Try to signup First. Email not registered.",
+            })
+        }
+        // Verify Password and Generate a JWT Token;
+        const payload = {
+            email : userPresent.email,
+            id: userPresent._id,
+            role: userPresent.role,
+        }
+        if( await bcrypt.compare(password,userPresent.password)){
+
+            //Password matches
+
+            let token = jwt.sign(payload,
+                process.env.JWT_SECRET,
+                {
+                expiresIn:"2h",
+            })
+
+            userPresent.token = token;
+            userPresent.password = undefined;
+
+            res.cookie()
+
+        }
+        // Password didn't match
+        else{
+            return res.status(403).json({
+                success:false,
+                message:"Password Incorrect."
+            })
+        }
+        return res.status(500).json({
+            success:false,
+            message:"Email and Password are incorrect, Please try again later",
+        })
+    }
+    catch(er){
+        console.log(er);
+        res.status(500).json({
+            success:false,
+            message:"User Detail fetching Error",
+        })
+
     }
 }
