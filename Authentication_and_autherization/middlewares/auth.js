@@ -27,11 +27,47 @@ exports.auth = (req,res,next)=>{
                 message:"Token is invalid"
             })
         }
+        next()
 
     } catch(er){
-        res.status(400).json({
+        res.status(401).json({
             success:false,
-            message:"There are something error in Middleware {Auth} "
+            message:"Something error in Middleware {Auth} verifing the token"
+        })
+    }
+}
+
+
+exports.isStudent= (req,res,next)=>{
+    try{
+        if(req.user.role !== "Student"){
+            return res.status(401).json({
+                success:false,
+                message:"This is a proteced route for student"
+            })
+        }
+        next()
+    }catch(er){
+        res.status(500).json({
+            success:false,
+            message:"Something error in isStudnet middleware ->    USER ROLE IS NOT MATCHING."
+        })
+    }
+    
+}
+
+exports.isAdmin =(req,res,next)=>{
+    try{
+        if(req.user.role !== "Admin"){
+            return res.status(401).json({
+                success:false,
+                message:"This is a proteced route for Admin"
+            })
+        }
+    }catch(er){
+        res.status(500).json({
+            success:false,
+            message:"Something error in isAdmin middleware ->    USER ROLE IS NOT MATCHING."
         })
     }
 }
