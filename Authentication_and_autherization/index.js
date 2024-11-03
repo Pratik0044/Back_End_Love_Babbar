@@ -1,11 +1,14 @@
 const express = require('express');
 const app = express();
 require("dotenv").config();
+
+const cookieParser = require("cookie-parser")
+
 const PORT = process.env.PORT;
 app.listen(PORT || 4000,()=>{
     console.log("This is testing of backend");
 })
-
+app.use(cookieParser())
 app.use(express.json());
 
 app.get('/',(req,response)=>{

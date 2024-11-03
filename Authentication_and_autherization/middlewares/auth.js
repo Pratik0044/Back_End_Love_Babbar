@@ -5,8 +5,8 @@ exports.auth = (req,res,next)=>{
     try{
         // extract JWT token
         // total 3 ways are present to fetch token 
-        const token = req.body.token ;
-        if(!token){
+        const token = req.cookie.token || req.header("Authorization").replace("Bearer ","") ;
+        if(!token || token === undefined) {
             return res.status(401).json({
                 success: false,
                 message: "Token not present"
