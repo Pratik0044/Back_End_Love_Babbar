@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
-const fileSchema =new  mongoose.Schema({
+const fileSchema =  new  mongoose.Schema({
     name:{
         type:String,
         required:true,
