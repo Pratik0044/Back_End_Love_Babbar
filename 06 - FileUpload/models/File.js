@@ -14,7 +14,7 @@ const fileSchema =  new  mongoose.Schema({
     email:{
         type:String
     }
-
+    
 });
 
 const File = mongoose.model("File",fileSchema)

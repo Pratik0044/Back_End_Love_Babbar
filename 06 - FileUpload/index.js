@@ -10,8 +10,8 @@ app.use(express.json());
 
 app.use(fileupload({
     useTempFiles : true,
-    tempFileDir : '/tmp/'
-}));
+    tempFileDir : '/tmp/'}
+));
 
 app.get("/",(req,res)=>{
     res.send("heelo ji")
@@ -24,7 +24,7 @@ const cloudinary = require('./config/cloudinary')
 cloudinary.cloudinaryConnect();
 
 const upload = require('./routes/FileUpload')
-app.use('api/v1/upload',upload);
+app.use('/api/v1/upload',upload);
 
 app.listen(PORT,()=>{
     console.log("hello ji I have started at PORT number: ", PORT);
