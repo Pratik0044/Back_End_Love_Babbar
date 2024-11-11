@@ -148,12 +148,12 @@ exports.imageSizeReducer = async (req,res)=>{
         const supportedTypes = ["jpg","png","jpeg"];
         const fileType =  file.name.split('.')[1].toLowerCase();
 
-        if(file.size/1048576 > 5 ){
-            return res.status(413).json({
-                success:false,
-                 "message": "File size exceeds the 5MB limit"
-            })
-        }
+        // if(file.size/1048576 > 5 ){
+        //     return res.status(413).json({
+        //         success:false,
+        //          "message": "File size exceeds the 5MB limit"
+        //     })
+        // }
         
         if( !isFileTypeSupported(fileType,supportedTypes)){
             return res.status(415).json({
